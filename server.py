@@ -44,8 +44,14 @@ class TavernManager:
     def read_book(self, path):
         if not os.path.exists(path):
             return None
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read().strip()
+                if not content:
+                    return None
+                return json.loads(content)
+        except Exception:
+            return None
 
     def save_book(self, path, data):
         with open(path, "w", encoding="utf-8") as f:
